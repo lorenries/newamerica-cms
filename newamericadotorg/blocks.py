@@ -380,6 +380,15 @@ class SessionsBlock(blocks.StreamBlock):
 	class Meta:
 		template = 'blocks/schedule.html'
 
+
+class RandomThoughtBlock(blocks.StructBlock):
+	title = blocks.CharBlock(required=True)
+	body = blocks.RichTextBlock(required=False)
+
+	class Meta:
+		template = 'blocks/random_thought.html'
+		label = 'Random Thought'
+
 class Body(blocks.StreamBlock):
 	introduction = blocks.RichTextBlock(icon="openquote")
 	heading = blocks.CharBlock(classname='full title', icon="title", template="blocks/heading.html")
@@ -393,6 +402,7 @@ class Body(blocks.StreamBlock):
 	timeline = TimelineBlock(icon="arrows-up-down")
 	google_map = GoogleMapBlock(icon="site")
 	resource_kit = ResourceKit(icon="folder")
+	random_thought = RandomThoughtBlock(icon = 'site')
 
 class PanelBlock(blocks.StructBlock):
 	title = blocks.TextBlock()
