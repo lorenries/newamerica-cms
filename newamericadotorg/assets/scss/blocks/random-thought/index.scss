@@ -1,0 +1,68 @@
+.random-thought {
+  max-width: 32rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  background-color: #fafafa;
+  .random-thought__author {
+    display: flex;
+    align-items: center;
+  }
+  .random-thought__author-image {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    margin-right: 0.5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-left: -4px;
+  }
+  .random-thought__author-name {
+    font-family: Circular;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(51, 51, 51, 0.8);
+  }
+  h3 {
+    font-size: 18px;
+    font-family: Circular;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  p {
+    font-size: 14px;
+    font-family: Circular;
+    line-height: 1.3;
+    margin: 10px 0;
+  }
+}
+
+.random-thought-multi {
+  margin-bottom: 2rem;
+  padding-left: 3rem;
+  position: relative;
+  .random-thought__author-image {
+    margin-left: -3.5rem;
+  }
+  h3 {
+    margin: 0 0 10px 0;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 3.2rem;
+    left: 1rem;
+    width: 3px;
+    height: calc(100% - 1.4rem);
+    background-color: #72dcc4;
+  }
+  &:last-child {
+    margin-bottom: 0;
+    &::after {
+      display: none;
+    }
+  }
+}

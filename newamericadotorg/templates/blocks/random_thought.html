@@ -1,0 +1,16 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<div class="random-thought">
+{% for thought in self.thoughts %}
+{% image thought.value.image width-100 as img %}
+  <div class="{% if self.thoughts|length > 1 %}random-thought-multi{% endif %}">
+    <div class="random-thought__author">
+      <div style="background-image: url({{img.url}})" class="random-thought__author-image"></div>
+      <span class="random-thought__author-name">{{thought.value.name}}</span>
+    </div>
+    <h3>{{thought.value.title}}</h3>
+    <p>{{thought.value.body}}</p>
+  </div>
+{% endfor %}
+</div>

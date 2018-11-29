@@ -1,3 +1,4 @@
+from PIL import ImageFile
 """
 Django settings for newamericadotorg project.
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'weekly',
     'in_depth',
     'other_content',
+    'random_thought',
     'storages',
     'rss_feed',
     'subscribe',
@@ -186,7 +188,6 @@ WAGTAIL_SITE_NAME = "newamericadotorg"
 WAGTAILIMAGES_IMAGE_MODEL = 'home.CustomImage'
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 200000
 
-from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 REST_FRAMEWORK = {

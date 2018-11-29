@@ -14,8 +14,10 @@ from newamericadotorg.blocks import BodyBlock
 
 from newamericadotorg import api
 
+
 class SubscriptionProgramRelationship(models.Model):
-    subscription_segment = models.ForeignKey(SubscriptionSegment, related_name="+")
+    subscription_segment = models.ForeignKey(
+        SubscriptionSegment, related_name="+")
     program = ParentalKey('Program', related_name='subscriptions')
     alternate_title = models.TextField(blank=True)
     panels = [
@@ -23,14 +25,17 @@ class SubscriptionProgramRelationship(models.Model):
         FieldPanel('alternate_title')
     ]
 
+
 class SubscriptionSubprogramRelationship(models.Model):
-    subscription_segment = models.ForeignKey(SubscriptionSegment, related_name="+")
+    subscription_segment = models.ForeignKey(
+        SubscriptionSegment, related_name="+")
     subprogram = ParentalKey('Subprogram', related_name='subscriptions')
     alternate_name = models.TextField(blank=True)
     panels = [
         FieldPanel('subscription_segment'),
         FieldPanel('alternate_name')
     ]
+
 
 class FeaturedProgramPage(Orderable):
     page = models.ForeignKey(Page, related_name="+")
@@ -48,6 +53,7 @@ class FeaturedProgramPage(Orderable):
         ImageChooserPanel('featured_image'),
     ]
 
+
 class FeaturedSubprogramPage(Orderable):
     page = models.ForeignKey(Page, related_name="+")
     program = ParentalKey('Subprogram', related_name='featured_pages')
@@ -63,6 +69,7 @@ class FeaturedSubprogramPage(Orderable):
         PageChooserPanel('page'),
         ImageChooserPanel('featured_image'),
     ]
+
 
 class AbstractProgram(Page):
     """
@@ -92,10 +99,12 @@ class AbstractProgram(Page):
     )
 
     hide_subscription_card = models.BooleanField(default=False)
-    subscription_card_text = models.TextField(blank=True, null=True, max_length=100)
+    subscription_card_text = models.TextField(
+        blank=True, null=True, max_length=100)
 
     featured_panels = [
-        InlinePanel('featured_pages', label="Featured Pages", help_text="First page becomes lead story")
+        InlinePanel('featured_pages', label="Featured Pages",
+                    help_text="First page becomes lead story")
     ]
 
     content_panels = Page.content_panels + [
@@ -138,24 +147,25 @@ class Program(AbstractProgram):
     """
     parent_page_types = ['home.HomePage']
     subpage_types = [
-    'article.ProgramArticlesPage',
-    'book.ProgramBooksPage',
-    'blog.ProgramBlogPostsPage',
-    'event.ProgramEventsPage',
-    'podcast.ProgramPodcastsPage',
-    'policy_paper.ProgramPolicyPapersPage',
-    'press_release.ProgramPressReleasesPage',
-    'quoted.ProgramQuotedPage',
-    'home.ProgramSimplePage',
-    'person.ProgramPeoplePage',
-    'Subprogram',
-    'Project',
-    'issue.TopicHomepage',
-    'home.RedirectPage',
-    'report.ReportsHomepage',
-    'PublicationsPage',
-    'other_content.ProgramOtherPostsPage',
-    'home.ProgramAboutHomePage'
+        'article.ProgramArticlesPage',
+        'book.ProgramBooksPage',
+        'blog.ProgramBlogPostsPage',
+        'event.ProgramEventsPage',
+        'podcast.ProgramPodcastsPage',
+        'policy_paper.ProgramPolicyPapersPage',
+        'press_release.ProgramPressReleasesPage',
+        'quoted.ProgramQuotedPage',
+        'home.ProgramSimplePage',
+        'person.ProgramPeoplePage',
+        'Subprogram',
+        'Project',
+        'issue.TopicHomepage',
+        'home.RedirectPage',
+        'report.ReportsHomepage',
+        'PublicationsPage',
+        'other_content.ProgramOtherPostsPage',
+        'home.ProgramAboutHomePage',
+        'random_thought.ProgramRandomThoughtsPage'
     ]
 
     desktop_program_logo = models.ForeignKey(
@@ -203,7 +213,8 @@ class Program(AbstractProgram):
         ObjectList(content_panels, heading="Content"),
         ObjectList(AbstractProgram.featured_panels, heading="Featured"),
         ObjectList(promote_panels, heading="Promote"),
-        ObjectList(Page.settings_panels, heading='Settings', classname="settings")
+        ObjectList(Page.settings_panels,
+                   heading='Settings', classname="settings")
     ])
 
     def get_context(self, request):
@@ -212,11 +223,15 @@ class Program(AbstractProgram):
         if getattr(request, 'is_preview', False):
             import newamericadotorg.api
             from issue.models import IssueOrTopic
-            revision = PageRevision.objects.filter(page=self).last().as_page_object()
+            revision = PageRevision.objects.filter(
+                page=self).last().as_page_object()
             topics = IssueOrTopic.objects.live().filter(depth=5, parent_program__id=self.id)
-            topics = [PageRevision.objects.filter(page=t).last().as_page_object() for t in topics]
-            program_data = newamericadotorg.api.program.serializers.ProgramDetailSerializer(revision, context={'is_preview': True}).data
-            topic_data = newamericadotorg.api.topic.serializers.TopicSerializer(topics, many=True).data
+            topics = [PageRevision.objects.filter(
+                page=t).last().as_page_object() for t in topics]
+            program_data = newamericadotorg.api.program.serializers.ProgramDetailSerializer(
+                revision, context={'is_preview': True}).data
+            topic_data = newamericadotorg.api.topic.serializers.TopicSerializer(
+                topics, many=True).data
             context['initial_state'] = json.dumps(program_data)
             context['initial_topics_state'] = json.dumps(topic_data)
 
@@ -244,31 +259,32 @@ class Subprogram(AbstractProgram):
     """
     parent_page_types = ['programs.Program']
     subpage_types = [
-    'article.ProgramArticlesPage',
-    'book.ProgramBooksPage',
-    'blog.ProgramBlogPostsPage',
-    'event.ProgramEventsPage',
-    'podcast.ProgramPodcastsPage',
-    'report.ReportsHomepage',
-    'policy_paper.ProgramPolicyPapersPage',
-    'press_release.ProgramPressReleasesPage',
-    'quoted.ProgramQuotedPage',
-    'home.ProgramSimplePage',
-    'person.ProgramPeoplePage',
-    'issue.IssueOrTopic',
-    'home.RedirectPage',
-    'PublicationsPage',
-    'other_content.ProgramOtherPostsPage',
-    'home.ProgramAboutHomePage'
+        'article.ProgramArticlesPage',
+        'book.ProgramBooksPage',
+        'blog.ProgramBlogPostsPage',
+        'event.ProgramEventsPage',
+        'podcast.ProgramPodcastsPage',
+        'report.ReportsHomepage',
+        'policy_paper.ProgramPolicyPapersPage',
+        'press_release.ProgramPressReleasesPage',
+        'quoted.ProgramQuotedPage',
+        'home.ProgramSimplePage',
+        'person.ProgramPeoplePage',
+        'issue.IssueOrTopic',
+        'home.RedirectPage',
+        'PublicationsPage',
+        'other_content.ProgramOtherPostsPage',
+        'home.ProgramAboutHomePage'
     ]
 
-    TEMPLATE_OPTIONS =  (
+    TEMPLATE_OPTIONS = (
         ('programs/program.html', 'Full'),
         ('simple_program.html', 'Efficiency'),
         ('programs/program.html', 'Collection')
     )
 
-    template = models.CharField(choices=TEMPLATE_OPTIONS, default='programs/program.html', max_length=100)
+    template = models.CharField(
+        choices=TEMPLATE_OPTIONS, default='programs/program.html', max_length=100)
 
     parent_programs = models.ManyToManyField(
         Program,
@@ -282,7 +298,7 @@ class Subprogram(AbstractProgram):
         blank=True,
     )
 
-    content_panels = [ FieldPanel('template') ] + AbstractProgram.content_panels + [
+    content_panels = [FieldPanel('template')] + AbstractProgram.content_panels + [
         InlinePanel('programs', label=("Programs")),
     ]
 
@@ -298,7 +314,8 @@ class Subprogram(AbstractProgram):
         ObjectList(content_panels, heading='Content'),
         ObjectList(AbstractProgram.featured_panels, heading='Featured'),
         ObjectList(promote_panels, heading='Promote'),
-        ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
+        ObjectList(Page.settings_panels, heading='Settings',
+                   classname="settings"),
     ])
 
     def get_template(self, request):
@@ -308,8 +325,10 @@ class Subprogram(AbstractProgram):
         context = super().get_context(request)
         if getattr(request, 'is_preview', False):
             import newamericadotorg.api
-            revision = PageRevision.objects.filter(page=self).last().as_page_object()
-            program_data = newamericadotorg.api.program.serializers.SubprogramSerializer(revision, context={'is_preview': True}).data
+            revision = PageRevision.objects.filter(
+                page=self).last().as_page_object()
+            program_data = newamericadotorg.api.program.serializers.SubprogramSerializer(
+                revision, context={'is_preview': True}).data
             context['initial_state'] = json.dumps(program_data)
             context['initial_topics_state'] = None
 
@@ -332,32 +351,33 @@ class Subprogram(AbstractProgram):
         )
 
         if isinstance(program, AbstractProgram):
-            relationship, created=ProgramSubprogramRelationship.objects.get_or_create(
+            relationship, created = ProgramSubprogramRelationship.objects.get_or_create(
                 program=program,
                 subprogram=self
             )
             if created:
                 relationship.save()
 
+
 class Project(Subprogram):
     parent_page_types = ['programs.Program']
     subpage_types = [
-    'article.ProgramArticlesPage',
-    'book.ProgramBooksPage',
-    'blog.ProgramBlogPostsPage',
-    'event.ProgramEventsPage',
-    'podcast.ProgramPodcastsPage',
-    'report.ReportsHomepage',
-    'policy_paper.ProgramPolicyPapersPage',
-    'press_release.ProgramPressReleasesPage',
-    'quoted.ProgramQuotedPage',
-    'home.ProgramSimplePage',
-    'person.ProgramPeoplePage',
-    'issue.IssueOrTopic',
-    'home.RedirectPage',
-    'PublicationsPage',
-    'other_content.ProgramOtherPostsPage',
-    'home.ProgramAboutHomePage'
+        'article.ProgramArticlesPage',
+        'book.ProgramBooksPage',
+        'blog.ProgramBlogPostsPage',
+        'event.ProgramEventsPage',
+        'podcast.ProgramPodcastsPage',
+        'report.ReportsHomepage',
+        'policy_paper.ProgramPolicyPapersPage',
+        'press_release.ProgramPressReleasesPage',
+        'quoted.ProgramQuotedPage',
+        'home.ProgramSimplePage',
+        'person.ProgramPeoplePage',
+        'issue.IssueOrTopic',
+        'home.RedirectPage',
+        'PublicationsPage',
+        'other_content.ProgramOtherPostsPage',
+        'home.ProgramAboutHomePage'
     ]
 
     redirect_page = models.ForeignKey(
@@ -377,8 +397,10 @@ class Project(Subprogram):
         ObjectList(content_panels, heading='Content'),
         ObjectList(Subprogram.featured_panels, heading='Featured'),
         ObjectList(Subprogram.promote_panels, heading='Promote'),
-        ObjectList(Subprogram.settings_panels, heading='Settings', classname='settings'),
+        ObjectList(Subprogram.settings_panels,
+                   heading='Settings', classname='settings'),
     ])
+
 
 class AbstractContentPage(Page):
     """
@@ -392,7 +414,8 @@ class AbstractContentPage(Page):
         return context
 
     class Meta:
-        abstract=True
+        abstract = True
+
 
 class PublicationsPage(AbstractContentPage):
     '''

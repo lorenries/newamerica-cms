@@ -114,7 +114,8 @@ class HomePage(Page):
     'subscribe.SubscribePage',
     'programs.PublicationsPage',
     'report.AllReportsHomePage',
-    'other_content.AllOtherPostsHomePage'
+    'other_content.AllOtherPostsHomePage',
+    'random_thought.AllRandomThoughtsHomePage'
     ]
 
     down_for_maintenance = models.BooleanField(default=False)
