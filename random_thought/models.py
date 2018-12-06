@@ -35,7 +35,7 @@ class AllRandomThoughtsHomePage(AbstractHomeContentPage):
         return RandomThought
 
     class Meta:
-        verbose_name = "New America Random Thoughts"
+        verbose_name = "Random Thoughts Homepage"
 
 
 class ProgramRandomThoughtsPage(AbstractContentPage):
